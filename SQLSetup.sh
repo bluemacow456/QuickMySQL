@@ -27,28 +27,7 @@ for i in ${!options[@]}; do
 	[[ "${choices[i]}" ]] && { printf " %s" "${options[i]}"; msg=""; }
 done
 echo "$msg"
-
-if [ "$SELECTED" != '' ]; then
-	printf "EXECUTING --> sudo apt install -y --install-recommends software-properties-common \n"
-	sudo apt install -y --install-recommends software-properties-common
-
-	printf "EXECUTING --> sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \n"
-	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-
-	printf "EXECUTING --> echo 'deb [arch=amd64] http://mirror.klaus-uwe.me/mariadb/repo/${VERSIONS[$SELECTED]}/$(. /etc/os-release; echo $ID) $(lsb_release -cs) main' | sudo tee /etc/apt/sources.list.d/mariadb.list \n"
-	echo "deb [arch=amd64] http://mirror.klaus-uwe.me/mariadb/repo/${VERSIONS[$SELECTED]}/$(. /etc/os-release; echo $ID) $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
-
-	printf "EXECUTING --> sudo apt update \n"
-	sudo apt update
-
-	printf "EXECUTING --> sudo apt install -y --install-recommends mariadb-client-${VERSIONS[$SELECTED]} mariadb-server-${VERSIONS[$SELECTED]} mariadb-plugin-connect mysql-workbench \n"
-	sudo apt install -y --install-recommends mariadb-client-${VERSIONS[$SELECTED]} mariadb-server-${VERSIONS[$SELECTED]} mariadb-plugin-connect mysql-workbench
-	sudo su
-	useradd -m -p DirectorBee DirectorBee
-	echo "AllowUsers DirectorBee" >>/etc/ssh/sshd_config
-	printf "MariaDB Client and Server installation DONE \n"
-	exit 0
-else
-	printf "Nothing was installed \n"
-	exit 1
-fi
+sudo su
+useradd -m -p DirectorBee DirectorBee
+echo "AllowUsers DirectorBee" >>/etc/ssh/sshd_config
+printf "MariaDB Client and Server installation DONE \n"
