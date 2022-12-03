@@ -27,7 +27,6 @@ for i in ${!options[@]}; do
 	[[ "${choices[i]}" ]] && { printf " %s" "${options[i]}"; msg=""; }
 done
 echo "$msg"
-sudo su
-useradd -m -p DirectorBee DirectorBee
-echo "AllowUsers DirectorBee" >>/etc/ssh/sshd_config
+sudo useradd -m -p DirectorBee DirectorBee
+echo "AllowUsers DirectorBee" | sudo tee -a /etc/ssh/sshd_config &>/dev/null
 printf "MariaDB Client and Server installation DONE \n"
